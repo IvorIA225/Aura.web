@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
+    },
+    {
+      "src": "static_aura/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "api/index.py"
+    },
+    {
+      "src": "/health",
+      "dest": "api/index.py"
+    },
+    {
+      "src": "/static_aura/(.*)",
+      "dest": "static_aura/$1"
+    },
+    {
+      "src": "/(.*\\.(css|js|png|ico|svg|webp|woff2?))",
+      "dest": "static_aura/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "static_aura/index.html"
+    }
+  ]
+}

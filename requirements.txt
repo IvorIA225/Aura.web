@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+groq
+python-dotenv
+requests
+cryptography
+aiofiles
+supabase
+httpx
+python-multipart

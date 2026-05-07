@@ -1,0 +1,31 @@
+# === SECRETS — NE JAMAIS PUBLIER ===
+.env
+*.env
+
+# Base de données locale
+aura_data.db
+*.db
+
+# Environnement virtuel Python
+.venv/
+venv/
+env/
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Fichiers système
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Vercel
+.vercel/
+
+# Logs serveur
+server_log.txt
+out.txt
+

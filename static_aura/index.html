@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - Ton Espace de Bien-Être</title>
+    <meta name="description" content="Aura, assistante de bien-être pour les étudiants de l'UAO.">
+    <!-- Fonts imported via CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="app-container">
+        <!-- Écran d'accueil / Humeur -->
+        <div id="mood-screen" class="screen active">
+            <div class="logo-container">
+                <div class="aura-icon">✨</div>
+                <h1 class="logo-text">Aura</h1>
+                <p class="subtitle">Université Alassane Ouattara · Bouaké</p>
+            </div>
+            
+            <div class="login-form">
+                <h2>👋 Bienvenue !</h2>
+                <p>Ta conversation est <strong>confidentielle</strong> et <strong>chiffrée</strong>. 🔐</p>
+                <input type="text" id="prenom-input" placeholder="Ton prénom..." autocomplete="off">
+                <input type="password" id="pin-input" placeholder="Code secret (5 chiffres)..." maxlength="5" autocomplete="off" inputmode="numeric">
+                <p class="pin-hint">Entre un code à 5 chiffres pour créer ton compte ou y accéder.</p>
+                
+                <div class="voice-toggle">
+                    <label>
+                        <input type="checkbox" id="voice-enabled"> 🔊 Activer la voix (ElevenLabs)
+                    </label>
+                </div>
+                
+                <div class="gender-selection" style="margin-top: 10px; text-align: left;">
+                    <label style="font-size: 0.85rem; color: var(--text-main); font-weight: 600;">Choisis ta voix d'Aura :</label>
+                    <select id="agent-gender-login" class="select-input" style="background: rgba(255,255,255,0.8); color: black;">
+                        <option value="feminine">✨ Aura (Féminin)</option>
+                        <option value="masculine">👔 Aura (Masculin)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="login-btn" class="login-validate-btn">
+                <i class="fas fa-arrow-right"></i> Commencer
+            </button>
+            <div id="login-error" class="login-error-msg hidden"></div>
+
+            <div id="mood-section" class="mood-section hidden">
+                <div class="welcome-text" style="margin-top: 1rem;">
+                    <p>Comment te sens-tu aujourd'hui ?</p>
+                </div>
+                <div class="mood-grid">
+                <button class="mood-btn" data-mood="ok">
+                    <span class="emoji">🌿</span>
+                    <span class="label">Ça va / Neutre</span>
+                </button>
+                <button class="mood-btn" data-mood="sad">
+                    <span class="emoji">🌧️</span>
+                    <span class="label">Triste</span>
+                </button>
+                <button class="mood-btn" data-mood="anxious">
+                    <span class="emoji">🦋</span>
+                    <span class="label">Anxieux(se)</span>
+                </button>
+                <button class="mood-btn" data-mood="overwhelmed">
+                    <span class="emoji">🌊</span>
+                    <span class="label">Submergé(e)</span>
+                </button>
+                <button class="mood-btn" data-mood="angry">
+                    <span class="emoji">🔥</span>
+                    <span class="label">En colère</span>
+                </button>
+            </div>
+            </div><!-- /mood-section -->
+        </div>
+
+        <!-- Écran de Chat -->
+        <div id="chat-screen" class="screen">
+            <div class="sidebar">
+                <div class="sidebar-user">
+                    <div class="avatar-small">✨</div>
+                    <div id="sidebar-user-name">Aura</div>
+                </div>
+                
+                <hr class="sidebar-divider">
+                
+                <div class="sidebar-section">
+                    <h4>Paramètres</h4>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="sidebar-voice-enabled"> 🔊 Activer la voix
+                    </label>
+                    <div class="gender-selection" style="margin-top:8px;">
+                        <label style="font-size:0.75rem;color:var(--text-dim);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Genre</label>
+                        <select id="agent-gender-sidebar" class="select-input">
+                            <option value="feminine">👩 Féminin</option>
+                            <option value="masculine">👨 Masculin</option>
+                        </select>
+                    </div>
+                    <div class="gender-selection" style="margin-top:8px;">
+                        <label style="font-size:0.75rem;color:var(--text-dim);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;">Style de voix</label>
+                        <select id="voice-style" class="select-input">
+                            <option value="mentor">🧘 Mentor (posée)</option>
+                            <option value="camarade">🤝 Camarade (dynamique)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr class="sidebar-divider">
+
+                <div class="sidebar-section">
+                    <h4>Actions</h4>
+                    <button id="new-session-btn" class="sidebar-btn"><i class="fas fa-plus"></i> Nouvelle discussion</button>
+                    <button id="clear-history-btn" class="sidebar-btn"><i class="fas fa-trash"></i> Effacer l'historique</button>
+                    <button id="logout-btn" class="sidebar-btn"><i class="fas fa-sign-out-alt"></i> Changer d'utilisateur</button>
+                    <button id="privacy-btn" class="sidebar-btn" onclick="document.getElementById('privacy-modal').classList.remove('hidden')"><i class="fas fa-shield-alt"></i> Confidentialité</button>
+                </div>
+
+                <hr class="sidebar-divider">
+
+                <div class="sidebar-section">
+                    <h4>🆘 Urgences CI</h4>
+                    <p style="font-size: 0.8rem; line-height: 1.6; margin-top: 5px;">
+                        📞 <strong>110 / 111</strong> Police<br>
+                        🚑 <strong>185</strong> SAMU<br>
+                        🔥 <strong>180</strong> Pompiers
+                    </p>
+                </div>
+            </div>
+
+            <div class="chat-main">
+                <header class="chat-header">
+                    <div class="header-info">
+                        <div>
+                            <h3>Aura</h3>
+                            <span class="status">En ligne, à ton écoute</span>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <span id="header-user-prenom" style="font-size:0.9rem; font-weight:bold; margin-right: 10px;"></span>
+                    </div>
+                </header>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <div class="disclaimer">
+                        ⚕️ <strong>Important :</strong> Aura est un outil de soutien émotionnel.
+                        En cas de crise : <strong>110/111</strong> · <strong>185</strong> · <strong>180</strong>
+                    </div>
+                    <!-- Les messages s'afficheront ici -->
+                    
+                    <div class="typing-indicator hidden" id="typing-indicator">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <button id="mic-btn" class="mic-btn" title="Note vocale">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <textarea id="chat-input" placeholder="Écris ton message ici..." rows="1"></textarea>
+                    <button id="send-btn" class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Confidentialité -->
+    <div id="privacy-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" onclick="document.getElementById('privacy-modal').classList.add('hidden')">&times;</span>
+            <h2>Politique de Confidentialité</h2>
+            <p><strong>1. Anonymat garanti :</strong> Aura ne demande ni ton nom de famille, ni ton email, ni ton numéro de téléphone.</p>
+            <p><strong>2. Sécurité :</strong> Tes conversations sont protégées par un code secret (PIN) à 5 chiffres que toi seul connais.</p>
+            <p><strong>3. Données locales :</strong> Les échanges sont gérés de manière sécurisée et ne sont jamais partagés avec des tiers ou des professeurs.</p>
+            <p><strong>4. Suppression :</strong> Tu peux effacer ton historique à tout moment d'un simple clic.</p>
+            <p><em>En utilisant Aura, tu acceptes ces conditions. Ta vie privée est notre priorité absolue.</em></p>
+        </div>
+    </div>
+
+    <!-- Audio pour la voix d'Aura -->
+    <audio id="aura-audio" style="display:none;"></audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/app.js"></script>
+</body>
+</html>
