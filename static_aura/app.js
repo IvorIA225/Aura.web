@@ -365,4 +365,29 @@ document.addEventListener('DOMContentLoaded', () => {
         prenomInput.value = '';
         document.getElementById('pin-input').value = '';
     }
+
+    // --- Mobile Menu Logic ---
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+    if(mobileMenuBtn && sidebar && sidebarOverlay) {
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+        });
+
+        // Fermer le menu si on clique sur un bouton d'action dans le menu
+        const sidebarButtons = document.querySelectorAll('.sidebar-btn');
+        sidebarButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if(window.innerWidth <= 768) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        });
+    }
 });
