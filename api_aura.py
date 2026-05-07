@@ -3,7 +3,7 @@ import json
 import logging
 from datetime import datetime
 from typing import Optional
-from fastapi import FastAPI, HTTPException, Request, BackgroundTasks
+from fastapi import FastAPI, HTTPException, Request, BackgroundTasks, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from groq import Groq
@@ -342,6 +342,26 @@ async def clear_history(request: Request, user_id: str):
         raise HTTPException(429, "Trop de requêtes. Réessayez dans une minute.")
     database.supprimer_historique(user_id)
     return {"status": "success", "message": "Historique effacé"}
+
+@app.post("/api/transcribe")
+async def transcribe_audio(request: Request, file: UploadFile = File(...)):
+    client_ip = request.client.host if request.client else "unknown"
+    if not _check_rate_limit(f"transcribe:{client_ip}", 10, 60):
+        raise HTTPException(429, "Trop de requêtes vocales. Réessayez dans une minute.")
+    try:
+        if not client:
+            raise ValueError("Groq n'est pas configuré.")
+        content = await file.read()
+        transcription = client.audio.transcriptions.create(
+            file=(file.filename, content),
+            model="whisper-large-v3",
+            response_format="json",
+            language="fr"
+        )
+        return {"text": transcription.text}
+    except Exception as e:
+        logging.error(f"Erreur transcription vocale : {type(e).__name__} - {e}")
+        raise HTTPException(status_code=500, detail="Erreur lors de l'analyse vocale.")
 
 if __name__ == "__main__":
     import uvicorn
