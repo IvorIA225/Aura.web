@@ -49,7 +49,8 @@ body {
   font-family: 'Inter', sans-serif;
   background: var(--bg-dark);
   color: var(--text);
-  height: 100vh;
+  height: 100vh; /* Fallback for older browsers */
+  height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -886,7 +887,9 @@ input[type="checkbox"] {
   .app-container {
     width: 100%;
     height: 100vh;
+    height: 100dvh;
     max-height: 100vh;
+    max-height: 100dvh;
     border-radius: 0;
     border: none;
   }
