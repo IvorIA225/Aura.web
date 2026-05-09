@@ -27,7 +27,7 @@
       "dest": "static_aura/$1"
     },
     {
-      "src": "/(.*\\.(css|js|png|ico|svg|webp|woff2?))",
+      "src": "/(.*\\.(css|js|png|ico|svg|webp|woff2?|json|webmanifest))",
       "dest": "static_aura/$1"
     },
     {
